@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './pages/Login.jsx';
@@ -21,3 +22,18 @@ function App() {
 }
 
 export default App;
+=======
+import React from 'react'
+import Homepage from './pages/Homepage.jsx'
+
+
+const App = () => {
+  return (
+
+      <Homepage/>
+    
+  )
+}
+
+export default App
+>>>>>>> c5519ab21544bec3a86e893fc337bc68cf5255bf
