@@ -17,4 +17,4 @@ const dummySlice = createSlice({
 });
 
 export const {setStart} = dummySlice.actions;
-export default bingoSlice.reducer;
+export default dummySlice.reducer;
