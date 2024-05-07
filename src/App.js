@@ -1,5 +1,5 @@
 import './App.css';
-import { AddProduct } from "./pages/AddProduct.jsx";
+import { AddProduct } from "./pages/AddProduct";
 import {Routes, Route} from "react-router-dom"
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       App
       <Routes>
-        <Route Component={AddProduct} path='/addProduct'/>
+        <Route element={<AddProduct/>} path='/addProduct'/>
       </Routes>
     </div>
   );
