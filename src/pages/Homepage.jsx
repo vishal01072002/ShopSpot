@@ -4,6 +4,7 @@ import ProductPage from './ProductPage';
 import Hero from '../component/Hero';
 import Footer from '../component/Footer';
 import Navbar from '../component/Navbar';
+import { Link } from 'react-router-dom';
 
 const Homepage = () => {
   const router = createBrowserRouter([
@@ -40,7 +41,7 @@ const Homepage = () => {
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800">Product Name</h3>
                 <p className="mt-2 text-gray-600">$19.99</p>
-                <a href="#" className="mt-3 inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Add to Cart</a>
+             <Link to="/cart">  <a href="#" className="mt-3 inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">Add to Cart</a></Link> 
               </div>
             </div>
             {/* Repeat Product Cards for other featured products */}

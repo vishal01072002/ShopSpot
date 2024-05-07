@@ -7,6 +7,7 @@ import ForgotPass from './pages/ForgotPass.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/Signup.jsx';
 import Homepage from './pages/Homepage.jsx';
+import CartPage from './pages/CartPage.jsx';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/signup' element={<SignUp/>}></Route>
       <Route path='/forgot' element={  <ForgotPass/>}></Route>
+      <Route path='/cart' element={<CartPage/>}></Route>
     </Routes>
 
     </div>
