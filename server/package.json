@@ -14,21 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",
-<<<<<<< HEAD
     "cros": "^1.0.1",
-=======
-    "cors": "^2.8.5",
->>>>>>> c5519ab21544bec3a86e893fc337bc68cf5255bf
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.3.2",
     "nodemon": "^3.1.0"
-<<<<<<< HEAD
-=======
-  },
-  "devDependencies": {
-    "@types/cookie-parser": "^1.4.6",
-    "@types/cors": "^2.8.17"
->>>>>>> c5519ab21544bec3a86e893fc337bc68cf5255bf
   }
 }
