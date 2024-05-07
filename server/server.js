@@ -6,6 +6,7 @@ import cors from "cors";
 // import Routes
 import userRoute from "./routes/user.js";
 import productRoute from "./routes/product.js";
+import cartRoute from "./routes/cart.js";
 const app = express();
 
 // loading environment variables
@@ -30,6 +31,8 @@ connectDB();
 // mounting routes
 app.use("/api/v1/user", userRoute);
 app.use("api/v1/product",productRoute);
+app.use("api/v1/cart",cartRoute);
+
 // listen to server
 app.listen(PORT, ()=> {
     console.log("server start at port",PORT);

@@ -9,6 +9,9 @@ export const AddProduct = () => {
     {
       name : "Laptop",
     },
+    {
+      name : "Crafts"
+    }
   ]
   const [preview, setPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
