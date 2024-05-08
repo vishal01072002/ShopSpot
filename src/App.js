@@ -43,13 +43,13 @@ function App() {
         <Routes>
           <Route path="/" element={<NavigationBar />}>
             <Route index element={<Content />} />
-            <Route path="products/:productId" element={<ProductDetails />} />
-            <Route path="modifyproduct/:productId" element={<ProductForm />} />
-            <Route path="addproduct" element={<ProductForm />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
+            <Route path="/products/:productId" element={<ProductDetails />} />
+            <Route path="/modifyproduct/:productId" element={<ProductForm />} />
+            <Route path="/addproduct" element={<ProductForm />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route element={<AddProduct/>} path='/addProduct'/>
-            <Route path="orders" element={<Order />} />
+            <Route path="/orders" element={<Order />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
         </Routes>
