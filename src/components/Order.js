@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import AddressDetails from "./AddressDetails";
 import OrderSummary from './OrderSummary';
 import NoMatch from "./NoMatch";
-
+import './Order.css';
 
 
 const steps = ['Items', 'Select Address', 'Confirm Order'];
@@ -75,23 +75,33 @@ export default function Order() {
     
     function ItemDetails() {
         return(
-            <div className="flex justify-around items-center mx-10 my-8">
-                <div className="w-1/2">
-                    <CardMedia
-                        component="img"
-                        height="auto"
-                        image={product.photo}
-                        alt={product.name}
-                    />
+            <div className="product-items-section">
+                    <div className="product-image">
+                        <CardMedia
+                            component="img"
+                            height="auto"
+                            image={product.photo}
+                            alt={product.name}
+                        />
+                    </div>
+                    <div className="product-detail">
+                        <div className="product-title">
+                            <h1 className="product-name">{product.name}</h1>
+                        </div>
+                        <div>
+                            <span className="order-availability">Quantity : {quantity}</span>
+                        </div>
+                        <div className="product-category">
+                            <span>Category: <b>{product.category}</b></span>
+                        </div>
+                        <div className="product-description">
+                            <span>{product.description}</span>
+                        </div>
+                        <div className="product-price">
+                            <span> Total Price: &#8377;  {product.price * quantity}</span>
+                        </div>
+                    </div>
                 </div>
-                <div className="w-1/2 px-8">
-                    <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
-                    <p className="text-lg mb-2">Quantity : {quantity}</p>
-                    <p className="text-lg mb-2">Category: <b>{product.category}</b></p>
-                    <p className="text-lg">{product.description}</p>
-                    <p className="text-red-600 text-xl mt-4">Total Price: &#8377;  {product.price * quantity}</p>
-                </div>
-            </div>
         );
     }
 

@@ -27,7 +27,7 @@ const Logo = () => {
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.cyan, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
@@ -113,11 +113,11 @@ export default function NavigationBar() {
   const isLoggedIn = Object.keys(user).length !== 0;
   const isAdmin = isLoggedIn && user.isAdmin;
   const dispatch = useDispatch();
-  if(localStorage.getItem('admin@Shopspot.com') === null) {
+  if(localStorage.getItem('admin@upgrad.com') === null) {
     const adminDetails = {
       contactNumber: "+919905029340",
-      email: "admin@Shopspot.com",
-      firstName: "",
+      email: "admin@upgrad.com",
+      firstName: "Prateek Gaurav",
       isAdmin: true,
       lastName: "admin",
       password: "pass@admin"
@@ -127,7 +127,7 @@ export default function NavigationBar() {
   return (
     <React.Fragment>
       <Box display='fixed' className='nav-bar' sx={{ flexGrow: 1}}>
-        <AppBar position="static" className="bg-zinc-800">
+        <AppBar position="static">
           <Toolbar>
             <Logo />
             <SearchBar isLoggedIn={isLoggedIn} dispatch={dispatch}/>

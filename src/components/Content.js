@@ -1,10 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Product from './Product';
 import { useEffect, useState } from 'react';
 import SortProductFilter from './SortProductFilter';
 import CategoryToggleFilter from './CategoryToggleFilter';
 import InitialProducts from '../common/InitialProducts';
 import { Alert, Snackbar } from '@mui/material';
+import Footer from './Footer';
 
 const FilterProducts = (products, setDisplayProducts) => {
     const displaySetting = useSelector((state) => state.productPageFilters);
@@ -33,29 +34,33 @@ const FilterProducts = (products, setDisplayProducts) => {
 
 export const Filters = ({isHideSort}) => {
     return(
-        <div className="flex flex-wrap items-center justify-between mt-4">
-            <SortProductFilter isHide={isHideSort}/>
-            <CategoryToggleFilter />
-            <div className="flex-1"></div>
-        </div>
+        <div style={{display: 'flex', marginTop: '16px'}}>
+                <SortProductFilter isHide={isHideSort}/>
+                <CategoryToggleFilter />
+                <div style={{flex: 1}}></div>
+            </div>
     );
 }
 
-const ProductCatalogue = ({displayProducts, isAdmin}) => {
+const ProductCatelogue = ({displayProducts, isAdmin}) => {
     return(
-        <div id='productCatalogue' className='flex flex-wrap'>
-            {displayProducts.map(element => (
-                <Product
-                    key={element.key}
-                    productDetails={element}
-                    isAdmin={isAdmin}
-                />
-            ))}
-        </div>
+        <div id='productCatelogue' className='flex-wrap'>
+                {
+                    displayProducts.map(element => {
+                        return(
+                            <Product
+                            key={element.key}
+                            productDetails={element}
+                            isAdmin={isAdmin}
+                            />
+                        );
+                    })
+                }
+            </div>
     );
 }
 
-export default function Content() {
+export default function Content () {
     const user = useSelector((state) => state.user);
     let products = JSON.parse(localStorage.getItem('products'));
     const isLoggedIn = Object.keys(user).length !== 0;
@@ -67,8 +72,7 @@ export default function Content() {
     const productModified = useSelector((state) => state.popups.productModified);
     const productAdded = useSelector((state) => state.popups.productAdded);
     const [reRender, setRerender] = useState(true);
-    
-    if ((productDeleted !== '' || productModified !== '' || productAdded !== '') && reRender) {
+    if((productDeleted !== '' || productModified !== '' || productAdded !== '') && reRender) {
         products = JSON.parse(localStorage.getItem('products'));
         setRerender(false);
         setDisplayProducts(products);
@@ -76,7 +80,7 @@ export default function Content() {
 
     const handleOrderPlacedClose = (event, reason) => {
         if (reason === 'clickaway') {
-            return;
+          return;
         }
         dispatch({type: 'setorderPlacedFalse'});
     };
@@ -101,22 +105,22 @@ export default function Content() {
         localStorage.setItem('products', JSON.stringify(defaultProducts));
         dispatch({type: 'setProducts'});
     }
-    
     FilterProducts(products, setDisplayProducts);
-    
     if(!isLoggedIn) {
         return(
-            <div className="center fill">Welcome to Shopspot,<br/>Enhance your experience through our goods.</div>
+            <>
+            <div className="center fill">Welcome to ShopSpot,<br/>Enhance your experince through our goods.</div>
+            
+            <Footer/>
+            </>
         );
     }
-
-    const [vertical, horizontal] = ['top', 'right'];
-
+    const [ vertical, horizontal ] = ['top', 'right'];
     return(
-        <div id='productPage' className="relative">
+        <div id='productPage'>
             <Snackbar open={orderPlaced} autoHideDuration={6000} onClose={handleOrderPlacedClose} anchorOrigin={{ vertical, horizontal }}>
-                <Alert onClose={handleOrderPlacedClose} severity="success" sx={{ width: '100%' }}>
-                    Order placed successfully!
+                <Alert onClose={handleOrderPlacedClose} severity="success" sx={{ width: '100%' }} >
+                    Order Placed successfully!
                 </Alert>
             </Snackbar>
             <Snackbar open={productDeleted !== ''} autoHideDuration={2000} onClose={handleProductDeletedClose} anchorOrigin={{ vertical, horizontal }}>
@@ -135,7 +139,7 @@ export default function Content() {
                 </Alert>
             </Snackbar>
             <Filters />
-            <ProductCatalogue displayProducts={displayProducts} isAdmin={isAdmin}/>
+            <ProductCatelogue displayProducts={displayProducts} isAdmin={isAdmin}/>
         </div>
     );
 }
