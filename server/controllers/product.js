@@ -1,4 +1,5 @@
-import Product from "../models/Product.js";
+import Product from "../models/Products.js";
+import { cloudinaryFileUpload } from "../utils/fileUpload.js";
    
   // @desc   add product
   // route   POST api product/addProduct
@@ -6,8 +7,9 @@ import Product from "../models/Product.js";
 
   export async function addProduct(req, res) {
     try {
-        const { productName, description, image, category, sellingPrice, Mrp, quantity } = req.body;
+        const { productName, description, category, sellingPrice, Mrp, quantity } = req.body;
 
+        console.log(req.body);
         if(!productName || !category || !sellingPrice || !Mrp || !quantity){
             return res.status(404).json({ 
                 success: false,
@@ -19,30 +21,32 @@ import Product from "../models/Product.js";
             description = "";
         }
 
-        const productPic = req?.files?.productPicture;
+        const productPic = req?.files?.productImg;
+        
         if(!productPic){
             return res.status(404).json({
                 success: false,
                 message: "file not found in body",
             });
         }
-
+ 
         const img = await cloudinaryFileUpload(
             productPic,
             process.env.FOLDER_NAME,
             1000,
-            100,
+            60,
         );
-
+        
         const product = new Product({
             productName,
             description,
-            image,
+            image:img.secure_url,
             category,
-            sellingPrice,
-            Mrp,
-            quantity
+            sellingPrice:Number(sellingPrice),
+            Mrp:Number(Mrp),
+            quantity:Number(quantity)
         });
+
         const savedProduct = await product.save();
         return res.status(200).json({
             success: true,
@@ -66,7 +70,7 @@ import Product from "../models/Product.js";
     try {
         const productId = req.params.id;
 
-        const { productName, description, image, category, sellingPrice, Mrp, quantity } = req.body;
+        const { productName, description, category, sellingPrice, Mrp, quantity } = req.body;
 
         if(!productId){
             return res.status(404).json({ 
@@ -78,7 +82,6 @@ import Product from "../models/Product.js";
         const updatedProduct = await Product.findByIdAndUpdate(productId, {
             productName,
             description,
-            image,
             category,
             sellingPrice,
             Mrp,
@@ -139,3 +142,63 @@ import Product from "../models/Product.js";
         });
     }
 }
+
+  // @desc   get all product
+  // route   POST api product/getProducts
+  // access  Private
+
+  export async function getProducts(req,res){
+    try {
+        const allProduct = await Product.find({});
+
+        if(!allProduct){
+            return res.status(404).json({ 
+                success: false,
+                message: 'Products not found' 
+            });
+        }
+
+        return res.status(200).json({ 
+            success: true,
+            message: 'Product fetched successfully',
+            products: allProduct
+        });
+    } catch (error) {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Failed to fetch products',
+            error: error.message 
+        });
+    }
+  }
+  
+  // @desc   get one product
+  // route   POST api product/getProduct
+  // access  Private
+
+  export async function getProduct(req,res){
+    try {
+        const productId = req.params.id;
+
+        const product = await Product.findById({_id:productId});
+
+        if(!product){
+            return res.status(404).json({ 
+                success: false,
+                message: 'Products not found' 
+            });
+        }
+
+        return res.status(200).json({ 
+            success: true,
+            message: 'Product fetched successfully',
+            product: product,
+        });
+    } catch (error) {
+        return res.status(500).json({ 
+            success: false,
+            message: 'Failed to fetch products',
+            error: error.message 
+        });
+    }
+  }

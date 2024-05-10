@@ -1,4 +1,4 @@
-import Cart from "../models/Cart";
+import Cart from "../models/Cart.js";
    
   // @desc   add to Cart
   // route   POST api cart/addToCart

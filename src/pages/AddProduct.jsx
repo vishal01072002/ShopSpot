@@ -1,4 +1,6 @@
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
+import { apiConnector } from '../api calls/apiConnector';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const AddProduct = () => {
 
@@ -13,16 +15,21 @@ export const AddProduct = () => {
       name : "Crafts"
     }
   ]
+
+  const navigate = useNavigate();
+  const params = useParams();
+  console.log(params);
+  
   const [preview, setPreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [category, setCategory] = useState("");
   const imgInput = useRef(null);
 
   const [product, setProduct] = useState({
-    name: "",
+    productName: "",
     description: "",
     sellingPrice: "",
-    mrp: "",
+    Mrp: "",
     quantity: ""
   });
   
@@ -51,13 +58,100 @@ export const AddProduct = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // Add logic to submit the product data
     // combine data
-    const data = {...product,category:category,productImg:imageFile}
-    console.log("Product Data:", data);
+    const formData = new FormData();
+    formData.append("productName",product.productName);
+    formData.append("description",product.description);
+    formData.append("sellingPrice",product.sellingPrice);
+    formData.append("Mrp",product.Mrp);
+    formData.append("quantity",product.quantity);
+    formData.append("category",category);
+    if(params?.productId){
+      await editProductCall(formData,params?.productId);
+    }
+    else{
+      formData.append("productImg",imageFile);
+      // const data = {...product,category:category,productImg:imageFile}
+      await addProductCall(formData);
+    }
   };
+  
+  const addProductCall = async(data)=>{
+    try {
+      console.log("Product Data:", data);
+        const response = await apiConnector("POST","http://127.0.0.1:4000/api/v1/product/addProduct",data,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+        );
+        if(! response.data.success){
+            throw new Error(response.data.message);
+        }
+        else{
+            console.log(response);
+        }
+    } catch (error) {
+        console.log("ADD PRODUCT API ERROR............", error);
+        console.log(error.response.data.message);
+    }    
+  }
+  
+  const editProductCall = async(data,productId)=>{
+    try {
+      console.log("Product Data:", data);
+        const response = await apiConnector("PUT",`http://127.0.0.1:4000/api/v1/product/editProduct/${productId}`,data,
+        {
+          "Content-Type": "multipart/form-data",
+        });
+        if(! response.data.success){
+            throw new Error(response.data.message);
+            // navigate("");
+        }
+        else{
+            console.log(response);
+        }
+    } catch (error) {
+        console.log("EDIT PRODUCT API ERROR............", error);
+        console.log(error.response.data.message);
+    }    
+  }
+
+  const findProduct = async(productId)=>{
+    try {
+        const response = await apiConnector("POST",`http://127.0.0.1:4000/api/v1/product/getProduct/${productId}`);
+        if(! response.data.success){
+            throw new Error(response?.data?.message);
+        }
+        else{
+          console.log(response);
+          const productDetail = response.data.product;
+          setCategory(productDetail.category);
+          setPreview(productDetail.image)
+          setProduct({
+            productName:productDetail.productName,
+            description:productDetail.description,
+            sellingPrice:productDetail.sellingPrice,
+            Mrp:productDetail.Mrp,
+            quantity:productDetail.quantity,
+          });
+        }
+    } catch (error) {
+        console.log("ONE PRODUCT API ERROR............", error);
+        console.log(error?.response?.data?.message);
+    }    
+  }
+
+  const oneProduct = async() =>{
+    if(params?.productId){
+      await findProduct(params?.productId);
+    }
+  }
+  useEffect(()=>{
+    oneProduct();
+  },[])
 
   return (
     <div className="bg-gray-50">
@@ -67,8 +161,8 @@ export const AddProduct = () => {
           <p className='text-lg text-start'>General Information</p>
           <div className='flex flex-col gap-3'>
             <div>
-            <label htmlFor="name" className="block text-lg text-start mb-1 text-gray-700">Name</label>
-            <input required={true} placeholder={"Enter Product Name"} type="text" id="name" name="name" value={product.name} onChange={handleChange} className="w-full rounded px-4 py-[6px] border-2 border-gray-400 focus:outline-none focus:border-blue-500" />
+            <label htmlFor="productName" className="block text-lg text-start mb-1 text-gray-700">Name</label>
+            <input required={true} placeholder={"Enter Product Name"} type="text" id="productName" name="productName" value={product.productName} onChange={handleChange} className="w-full rounded px-4 py-[6px] border-2 border-gray-400 focus:outline-none focus:border-blue-500" />
             </div>
             <div>
             <label htmlFor="description" className="block text-lg text-start mb-1 text-gray-700">Description</label>
@@ -80,14 +174,14 @@ export const AddProduct = () => {
                 <input required={true} placeholder={"Enter Product SellingPrice"} type="number" min={1} id="sellingPrice" name="sellingPrice" value={product.sellingPrice} onChange={handleChange} className="w-full rounded px-4 py-[6px] border-2 border-gray-400 focus:outline-none focus:border-blue-500" />
               </div>
               <div className='w-full'>
-                <label htmlFor="mrp" className="block text-lg text-start mb-1 text-gray-700">MRP</label>
-                <input required={true} placeholder={"Enter Product Mrp"} type="number" min={1} id="mrp" name="mrp" value={product.mrp} onChange={handleChange} className="w-full rounded px-4 py-[6px] border-2 border-gray-400 focus:outline-none focus:border-blue-500" />
+                <label htmlFor="Mrp" className="block text-lg text-start mb-1 text-gray-700">MRP</label>
+                <input required={true} placeholder={"Enter Product Mrp"} type="number" min={1} id="Mrp" name="Mrp" value={product.Mrp} onChange={handleChange} className="w-full rounded px-4 py-[6px] border-2 border-gray-400 focus:outline-none focus:border-blue-500" />
               </div>
             </div>
             <div>            
             <label htmlFor="category" className="block text-lg text-start mb-1 text-gray-700">Category</label>
             <select
-              defaultValue={""}
+              value={category}
               id="category"
               onChange={(event) => setCategory(event.target.value)}
               className="w-full rounded px-4 py-[6px] border-2 border-gray-400 focus:outline-none focus:border-blue-500"
@@ -104,18 +198,19 @@ export const AddProduct = () => {
               </select>
             </div>
           </div>
-          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Product</button>
+          <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600">{params?.productId ? "Edit Product" : "Add Product"}</button>
         </div>
         
         {/* right part */}
-        <div className='border-2 w-2/6 flex flex-col bg-white shadow-lg gap-8 rounded-lg p-5 '>
+        <div className='border-2 w-2/6 flex flex-col items-center bg-white shadow-lg gap-8 rounded-lg p-5 '>
           <div className='border-2 border-gray-400 mx-auto w-[250px] mt-5 h-[250px] rounded-md'>
-            {preview ? <img src={preview} alt={"product"} className='w-[250px] h-[250px] rounded-md object-cover'/> : <div className='mt-5 w-[250px] h-[250px] rounded-md'>Product Image</div>}
+            {preview ? <img src={preview} alt={"product"} className='w-[250px] h-[250px] rounded-md object-cover'/> : <div className='mt-5 text-center w-[250px] h-[250px] rounded-md'>Product Image</div>}
           </div>
           <div>
             <label htmlFor="image" className="block text-lg text-start mb-1 text-gray-700">
-            <input required={true} type="file" ref={imgInput} accept='image/png, image/gif, image/jpeg' id="image" name="image" value={product.image} onChange={handleImgChange} className='hidden'/></label>
+            <input required={!(params?.productId)} type="file" ref={imgInput} accept='image/png, image/gif, image/jpeg' id="image" name="image" value={product.image} onChange={handleImgChange} className='hidden'/></label>
             <button 
+              type='button'
               disabled={false}
               className='rounded-md bg-blue-100 px-5 py-1'
               onClick={() => {handleSelect()}}>
