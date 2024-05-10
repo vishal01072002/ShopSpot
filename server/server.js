@@ -5,7 +5,11 @@ import {config} from "dotenv";
 import cors from "cors";
 // import Routes
 import userRoute from "./routes/user.js";
+<<<<<<< HEAD
+
+=======
 import productRoute from "./routes/product.js";
+>>>>>>> f56e537d701b95d7a7b71a317eb9bd1fd04d36f4
 const app = express();
 
 // loading environment variables
@@ -29,7 +33,12 @@ connectDB();
 
 // mounting routes
 app.use("/api/v1/user", userRoute);
+<<<<<<< HEAD
+
+
+=======
 app.use("api/v1/product",productRoute);
+>>>>>>> f56e537d701b95d7a7b71a317eb9bd1fd04d36f4
 // listen to server
 app.listen(PORT, ()=> {
     console.log("server start at port",PORT);
