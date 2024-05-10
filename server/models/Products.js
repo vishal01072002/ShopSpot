@@ -22,8 +22,9 @@ const ProductSchema = new Schema({
         trim: true,
         required: true,
         enum: [
-            'mobile',
-            'laptop',
+            'Mobile',
+            'Laptop',
+            'Crafts',
             'etc',       
         ],
     },

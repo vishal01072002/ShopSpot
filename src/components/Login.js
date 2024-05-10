@@ -9,7 +9,7 @@ function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
-        <Link color="inherit"  target='_blank'>
+        <Link color="inherit" target='_blank'>
           Shopspot
         </Link>{' '}
         {new Date().getFullYear()}
