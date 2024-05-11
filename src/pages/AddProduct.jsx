@@ -81,7 +81,6 @@ export const AddProduct = () => {
   
   const addProductCall = async(data)=>{
     try {
-      console.log("Product Data:", data);
         const response = await apiConnector("POST","http://127.0.0.1:4000/api/v1/product/addProduct",data,
         {
           "Content-Type": "multipart/form-data",
@@ -101,7 +100,6 @@ export const AddProduct = () => {
   
   const editProductCall = async(data,productId)=>{
     try {
-      console.log("Product Data:", data);
         const response = await apiConnector("PUT",`http://127.0.0.1:4000/api/v1/product/editProduct/${productId}`,data,
         {
           "Content-Type": "multipart/form-data",

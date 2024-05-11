@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Alert, Avatar, Box, Button, Checkbox, Container, createTheme, CssBaseline, FormControlLabel, Grid, Link, Snackbar, TextField, ThemeProvider, Typography } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import validator from 'validator';
+import { apiConnector } from '../api calls/apiConnector';
 
 function Copyright(props) {
     return (
@@ -34,7 +35,25 @@ export default function Login(){
             navigate('/');
         }
     });
-    const handleSubmit = (event) => {
+
+    const loginUserAPI = async(data)=>{
+      try {
+        const response = await apiConnector("POST","http://127.0.0.1:4000/api/v1/user/login",data);
+        if(! response.data.success){
+          throw new Error(response.data.message);
+        }
+        else{
+          console.log(response);
+          localStorage.setItem(response.data.user.email, JSON.stringify(response.data.user));
+          dispatch({type: 'login', payload: response.data.user});
+          setOpenSuccess(true);
+        }
+      } catch (error) {
+          console.log("LOGIN API ERROR............", error);
+          console.log(error.response.data.message);
+      }    
+    } 
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const formData = {};
@@ -47,6 +66,9 @@ export default function Login(){
           setErrors(newErrors);
           return;
         }
+
+        await loginUserAPI(data);
+        /*
         const userData = JSON.parse(localStorage.getItem(formData.email));
         if(userData === null) {
             setOpenFailure(true);
@@ -57,6 +79,7 @@ export default function Login(){
           return;
         }
         dispatch({type: 'login', payload: userData});
+        */
       };
 
       const validateComponent = (event) => {
