@@ -107,7 +107,10 @@ export default function Content () {
     FilterProducts(products, setDisplayProducts);
     if(!isLoggedIn) {
         return(
-            <div className="center fill">Welcome to Shopspot,<br/>Enhance your experince through our goods.</div>
+            <div>
+                 <div className="center fill">Welcome to Shopspot,<br/>Enhance your experince through our goods.</div>   
+            </div>
+
         );
     }
     const [ vertical, horizontal ] = ['top', 'right'];
