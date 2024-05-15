@@ -10,8 +10,8 @@ function Copyright(props) {
     return (
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
-        <Link color="inherit" href="https://upgrad.com/" target='_blank'>
-          upGrad
+        <Link color="inherit" target='_blank'>
+          Shopspot
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
