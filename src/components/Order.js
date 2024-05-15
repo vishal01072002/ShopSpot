@@ -50,10 +50,10 @@ export default function Order() {
             newProducts[index].quantity = newProducts[index].quantity - quantity;
             const dateTime = new Date().toLocaleString();
             newProducts[index].modifiedDate = dateTime;
-            // dispatch({type: 'setProducts', payload: newProducts});
             localStorage.setItem('products', JSON.stringify(newProducts));
-            dispatch({type: 'setOrderPlacedTrue'});
-            navigate('/');
+            const data = {...address,productId:productId};
+            console.log(data);
+            createOrderAPI(data)
             return;
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -62,6 +62,22 @@ export default function Order() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const createOrderAPI = async (data) => {
+        try {
+          const response = await apiConnector("POST", "http://127.0.0.1:4000/api/v1/order/createOrder", data);
+          if (!response.data.success) {
+            throw new Error(response.data.message);
+          } else {
+            console.log(response);
+            dispatch({type: 'setOrderPlacedTrue'});
+            navigate('/');
+          }
+        } catch (error) {
+          console.log("CREATE ADDRESS API ERROR:", error);
+          console.log(error.response.data.message);
+        }
+      }
+  
     function OrderStepContent() {
         switch(activeStep) {
             case 0:

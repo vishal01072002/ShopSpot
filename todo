@@ -1,0 +1,8 @@
+            firstName
+            lastName
+            contactNumber
+            street
+            city
+            state
+            landmark
+            zip

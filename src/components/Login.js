@@ -45,8 +45,7 @@ export default function Login(){
         else{
           console.log(response);
           localStorage.setItem(response.data.user.email, JSON.stringify(response.data.user));
-          dispatch({type: 'login', payload: response.data.user});
-          setOpenSuccess(true);
+          dispatch({type: 'login', payload: response?.data?.user});
         }
       } catch (error) {
           console.log("LOGIN API ERROR............", error);

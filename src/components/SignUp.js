@@ -35,6 +35,7 @@ const theme = createTheme();
 export default function SignUp() {
 
     const [errors, setErrors] = React.useState({});
+    const [account, setAccount] = React.useState("");
     const [openSuccess, setOpenSuccess] = React.useState(false);
     const user = useSelector(state => state.user);
     const isLoggedIn = Object.keys(user).length !== 0;
@@ -88,6 +89,9 @@ export default function SignUp() {
 
   const validate = (name, value, newErrors) => {
     let error = '';
+    if(name === "account"){
+      console.log(value);
+    }
     if(!value) {
         error = 'Value required!'
     } else {
@@ -224,23 +228,22 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputLabel htmlFor={"account"}>
+                <InputLabel>Account</InputLabel>
                 <Select
                   required
                   fullWidth
-                  defaultValue=""
+                  value={account}
                   label="Account"
-                  name="account"
-                  id="account"
-                  onChange={validateComponent}
-                  error={errors.hasOwnProperty('account')}
-                  helperText={errors.account}
+                  name="accounts"
+                  id="accounts"
+                  onChange={(e)=>setAccount(e.target.value)}
+                  error={errors.hasOwnProperty('accounts')}
+                  helperText={errors.accounts}
                 >
                   <MenuItem value={""} disabled>Select-User</MenuItem>
                   <MenuItem value={"User"}>User</MenuItem>
                   <MenuItem value={"Admin"}>Admin</MenuItem>
                 </Select>
-                </InputLabel>
               </Grid>
               <Grid item xs={12}>
                 <TextField

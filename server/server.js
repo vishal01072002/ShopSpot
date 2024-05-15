@@ -9,6 +9,7 @@ import fileUpload from "express-fileupload";
 import userRoute from "./routes/user.js";
 import productRoute from "./routes/product.js";
 import cartRoute from "./routes/cart.js";
+import orderRoute from "./routes/order.js";
 const app = express();
 
 // loading environment variables
@@ -43,6 +44,7 @@ cloudinaryConnect();
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/product",productRoute);
 app.use("/api/v1/cart",cartRoute);
+app.use("/api/v1/order",orderRoute);
 
 // listen to server
 app.listen(PORT, ()=> {

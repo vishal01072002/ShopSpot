@@ -21,12 +21,12 @@ export default function AddressDetails({setAddressCallBack, addressDetails}) {
             formData[name] = value;
             validate(name, value, newErrors);
         }
+        formData["email"] = user.email;
         if(Object.keys(newErrors).length !== 0) {
             setErrors(newErrors);
             return;
         }
         setAddressCallBack(formData);
-        return false;
     };
 
     const handleSaveAddress = () => {
@@ -41,6 +41,7 @@ export default function AddressDetails({setAddressCallBack, addressDetails}) {
             setErrors(newErrors);
             return;
         }
+        formData["email"] = user.email;
         const newSavedAddresses = [...savedAddresses, formData];
         localStorage.setItem(user.email + '_addresses', JSON.stringify(newSavedAddresses));
         setSavedAddresses(newSavedAddresses);
@@ -186,19 +187,6 @@ export default function AddressDetails({setAddressCallBack, addressDetails}) {
             error={errors.hasOwnProperty('state')}
             helperText={errors.state}
             value={address.state}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="landmark"
-            name="landmark"
-            label="Landmark"
-            fullWidth
-            autoComplete="shipping landmark"
-            onChange={validateComponent}
-            error={errors.hasOwnProperty('landmark')}
-            helperText={errors.landmark}
-            value={address.landmark}
           />
         </Grid>
         <Grid item xs={12}>
