@@ -3,6 +3,7 @@ import "../App.css"
 import HeroImg from "../assests/images/advertising.png"
 import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope } from "react-icons/fa";
 import { apiConnector } from '../api calls/apiConnector';
+import Content from '../components/Content';
 
 export const Home = () => {
     const categories = [
@@ -14,7 +15,6 @@ export const Home = () => {
       ];
     
       const [allProducts, setAllProducts] = useState([]);
-      const [showProduct, setShowProduct] = useState([]);
       const products = [
         {
           id: 1,
@@ -40,12 +40,15 @@ export const Home = () => {
         console.log(response);
         const productDetail = response.data.products;
         setAllProducts(productDetail);
-        setShowProduct(productDetail?.slice(0,2));
+        localStorage.setItem('products', JSON.stringify(productDetail));
         console.log(productDetail?.slice(0,2));
       }
     } catch (error) {
       console.log("ONE PRODUCT API ERROR............", error);
       console.log(error?.response?.data?.message);
+      let temp = [];
+      localStorage.setItem('products', JSON.stringify(temp));
+
     }  
   }
 
@@ -73,7 +76,8 @@ export const Home = () => {
       </div>
         </div>
 
-        {/* category */}
+        {/* 
+        
         <div className="bg-gray-100 py-8">
       <div className="container mx-auto rounded-lg bg-white shadow-md p-6 flex flex-col md:flex-row items-center justify-center">
         <h2 className="text-gray-800 text-lg font-semibold mb-4 md:mb-0 md:mr-4">Browse Categories:</h2>
@@ -96,8 +100,7 @@ export const Home = () => {
       </div>
         </div>
 
-        {/* cards and one card */}
-          <div className='flex gap-20 items-center justify-center'>
+        <div className='flex gap-20 items-center justify-center'>
           { 
             showProduct?.length === 0 ? <p>No Product Now</p> :
             showProduct?.map((one => (
@@ -121,7 +124,13 @@ export const Home = () => {
           <span className="text relative"><p className='text-center absolute top-1/2 -translate-y-1/2 text-2xl font-bold'>Show More</p></span>
           </button>
           </div>
-          </div>  
+        </div> 
+        
+        */}
+         
+         <div>
+          {<Content/>}
+         </div>
         {/* news letter */}
         <section id="newsletter" className={`section-p1 flex justify-between items-center px-16 bg-cover mt-5 mb-20 bg-no-repeat bg-center`} >
           <div className="newstext">

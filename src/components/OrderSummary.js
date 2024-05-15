@@ -3,10 +3,10 @@ export default function OrderSummary({address, product, quantity}) {
         <div className="order-summary-section">
                     <div className="product-summary">
                         <div className="product-title">
-                            <h1 className="product-name">{product.name}</h1>
+                            <h1 className="product-name">{product.productName}</h1>
                         </div>
-                        <div className="product-quantity">
-                            Quantity : {quantity}
+                        <div className="product-quantity w-full">
+                            <p className="flex w-full">Quantity : {quantity}</p>
                         </div>
                         <div className="product-category">
                             <span>Category: <b>{product.category}</b></span>
@@ -15,7 +15,7 @@ export default function OrderSummary({address, product, quantity}) {
                             <span>{product.description}</span>
                         </div>
                         <div className="product-price">
-                            <span> TotalPrice:  &#8377;  {quantity*product.price}</span>
+                            <span> TotalPrice:  &#8377;{quantity*product.sellingPrice}</span>
                         </div>
                     </div>
                     <div className="address-summary">

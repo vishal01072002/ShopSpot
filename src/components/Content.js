@@ -12,7 +12,7 @@ const FilterProducts = (products, setDisplayProducts) => {
     useEffect(() => {
         let newDisplayProducts = [...products];
         newDisplayProducts = newDisplayProducts.filter(product => {
-            if(product.name.toLowerCase().indexOf(displaySetting.search.toLowerCase()) === -1) {
+            if(product.name?.toLowerCase()?.indexOf(displaySetting.search?.toLowerCase()) === -1) {
                 return false;
             }
             if(displaySetting.category !== 'ALL' && product.category !== displaySetting.category) {
@@ -21,11 +21,11 @@ const FilterProducts = (products, setDisplayProducts) => {
             return true;
         });
         if(displaySetting.sortBy === 'Price: High to Low') {
-            newDisplayProducts.sort(function(a, b){return b.price - a.price});
+            newDisplayProducts.sort(function(a, b){return b.sellingPrice - a.sellingPrice});
         } else if(displaySetting.sortBy === 'Price: Low to High') {
-            newDisplayProducts.sort(function(a, b){return a.price - b.price});
-        } else if(displaySetting.sortBy === 'Newest') {
-            newDisplayProducts.sort(function(a, b){return new Date(a.modifiedDate) > new Date(b.modifiedDate)});
+            newDisplayProducts.sort(function(a, b){return a.sellingPrice - b.sellingPrice});
+        } else if(displaySetting.sortBy === 'Newest') {  
+            newDisplayProducts.sort(function(a, b){return new Date(a?.createdAt) > new Date(b?.createdAt)});
         }
         setDisplayProducts(newDisplayProducts);
     }, [displaySetting]);
@@ -33,22 +33,28 @@ const FilterProducts = (products, setDisplayProducts) => {
 
 export const Filters = ({isHideSort}) => {
     return(
-        <div style={{display: 'flex', marginTop: '16px'}}>
+        <>
+            {isHideSort !== null && !isHideSort && <div style={{display: 'flex', marginTop: '16px'}}>
                 <SortProductFilter isHide={isHideSort}/>
                 <CategoryToggleFilter />
                 <div style={{flex: 1}}></div>
-            </div>
+            </div>}
+        </>
     );
 }
 
 const ProductCatelogue = ({displayProducts, isAdmin}) => {
+    console.log(displayProducts);
+    if(displayProducts?.length === 0){
+        return <div className='h-48 my-16 flex items-center justify-center text-3xl'>No Product In This Category</div>
+    }
     return(
-        <div id='productCatelogue' className='flex-wrap'>
+        <div id='productCatelogue' className='flex justify-around flex-wrap'>
                 {
                     displayProducts.map(element => {
                         return(
                             <Product
-                            key={element.key}
+                            key={element._id}
                             productDetails={element}
                             isAdmin={isAdmin}
                             />
@@ -104,15 +110,8 @@ export default function Content () {
         localStorage.setItem('products', JSON.stringify(defaultProducts));
         dispatch({type: 'setProducts'});
     }
-    FilterProducts(products, setDisplayProducts);
-    if(!isLoggedIn) {
-        return(
-            <div>
-                 <div className="center fill">Welcome to Shopspot,<br/>Enhance your experince through our goods.</div>   
-            </div>
 
-        );
-    }
+    FilterProducts(products, setDisplayProducts);
     const [ vertical, horizontal ] = ['top', 'right'];
     return(
         <div id='productPage'>

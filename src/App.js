@@ -38,7 +38,7 @@ function App() {
       <div className="App">
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<Content />} />
+          <Route path="/" element={<Home />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
           <Route path="/modifyproduct/:productId" element={<ProductForm />} />
           <Route path="/login" element={<Login />} />
@@ -48,7 +48,7 @@ function App() {
           <Route path='/Cart' element={<CheckoutCart />} />
           <Route path='/Payment' element={<PaymentGatewayPage />} />
           <Route path="/orders" element={<Order />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Content />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </div>
@@ -57,3 +57,5 @@ function App() {
 }
 
 export default App;
+
+// categories 'APPAREL', 'ELECTRONICS', 'FOOTWEAR', 'PERSONAL CARE'

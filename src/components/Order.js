@@ -7,6 +7,7 @@ import AddressDetails from "./AddressDetails";
 import OrderSummary from './OrderSummary';
 import NoMatch from "./NoMatch";
 import './Order.css';
+import { apiConnector } from "../api calls/apiConnector";
 
 
 const steps = ['Items', 'Select Address', 'Confirm Order'];
@@ -34,7 +35,7 @@ export default function Order() {
     if(!searchParams.get('productId')) {
         return <NoMatch />
     }
-    const product = products.find(ele => ele.key == productId);
+    const product = products.find(ele => ele?._id == productId);
 
     const handleNext = () => {
         if(activeStep === 1) {
@@ -96,13 +97,13 @@ export default function Order() {
                         <CardMedia
                             component="img"
                             height="auto"
-                            image={product.photo}
-                            alt={product.name}
+                            image={product.image}
+                            alt={product?.productName}
                         />
                     </div>
                     <div className="product-detail">
                         <div className="product-title">
-                            <h1 className="product-name">{product.name}</h1>
+                            <h1 className="product-name">{product?.productName}</h1>
                         </div>
                         <div>
                             <span className="order-availability">Quantity : {quantity}</span>
@@ -114,7 +115,7 @@ export default function Order() {
                             <span>{product.description}</span>
                         </div>
                         <div className="product-price">
-                            <span> Total Price: &#8377;  {product.price * quantity}</span>
+                            <span> Total Price: &#8377;  {product.sellingPrice * quantity}</span>
                         </div>
                     </div>
                 </div>

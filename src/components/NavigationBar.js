@@ -16,10 +16,10 @@ import {Outlet, useLocation} from 'react-router-dom';
 const Logo = () => {
   return(
     <React.Fragment>
-      <ShoppingCart />
-      <Typography variant="h6" padding={1} noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-        ShopSpot
-      </Typography>
+        <ShoppingCart />
+        <Typography variant="h6" padding={1} noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
+          ShopSpot
+        </Typography>
     </React.Fragment>
   )
 }
@@ -111,8 +111,9 @@ export default function NavigationBar() {
 
   const user = useSelector(state => state.user);
   const isLoggedIn = Object.keys(user).length !== 0;
-  const isAdmin = isLoggedIn && user.isAdmin;
+  const isAdmin = isLoggedIn && user?.account === "Admin";
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   if(localStorage.getItem('admin@upgrad.com') === null) {
     const adminDetails = {
       contactNumber: "+919905029340",
@@ -129,7 +130,7 @@ export default function NavigationBar() {
       <Box display='fixed' className='nav-bar' sx={{ flexGrow: 1}}>
         <AppBar position="static">
           <Toolbar>
-            <Logo />
+            <span className='flex items-center cursor-pointer' onClick={() => navigate("/")}> {<Logo/>} </span>
             <SearchBar isLoggedIn={isLoggedIn} dispatch={dispatch}/>
             <Box sx={{ flexGrow: 1 }} />
             <Menu isLoggedIn={isLoggedIn} isAdmin={isAdmin} />

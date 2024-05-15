@@ -1,21 +1,26 @@
 import React, {useEffect, useRef, useState} from 'react'
 import { apiConnector } from '../api calls/apiConnector';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export const AddProduct = () => {
 
   const Categories = [
     {
-      name : "Mobile",
+      name : "APPAREL",
     },
     {
-      name : "Laptop",
+      name : "ELECTRONICS",
     },
     {
-      name : "Crafts"
+      name : "FOOTWEAR"
+    },
+    {
+      name : "PERSONAL CARE"
     }
   ]
 
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const params = useParams();
   console.log(params);
@@ -149,6 +154,12 @@ export const AddProduct = () => {
   }
   useEffect(()=>{
     oneProduct();
+  },[]);
+
+  useEffect(()=>{
+    if(user?.account !== "Admin"){
+      navigate("/");
+    }
   },[])
 
   return (
