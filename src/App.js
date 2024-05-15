@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { AddProduct } from "./pages/AddProduct";
 import NavigationBar from './components/NavigationBar';
 import Content from './components/Content';
 import Login from './components/Login';
@@ -12,6 +13,8 @@ import Order from './components/Order';
 import ProductForm from './components/ProductForm';
 import { Home } from './pages/Home';
 import PaymentGatewayPage from './pages/Payment';
+import CheckoutCart from './pages/Cart';
+
 
 const theme = createTheme({
   palette: {
@@ -40,7 +43,9 @@ function App() {
           <Route path="/modifyproduct/:productId" element={<ProductForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path='/addProduct' element={<ProductForm />} />
+          <Route path='/addProduct' element={<AddProduct/>}/>
+            <Route path='/editProduct/:productId' element={<AddProduct/>}/>
+          <Route path='/Cart' element={<CheckoutCart />} />
           <Route path='/Payment' element={<PaymentGatewayPage />} />
           <Route path="/orders" element={<Order />} />
           <Route path="/home" element={<Home />} />
