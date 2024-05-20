@@ -46,6 +46,7 @@ export default function Login(){
           console.log(response);
           localStorage.setItem(response.data.user.email, JSON.stringify(response.data.user));
           dispatch({type: 'login', payload: response.data.user});
+          // eslint-disable-next-line no-undef
           setOpenSuccess(true);
         }
       } catch (error) {
@@ -92,6 +93,7 @@ export default function Login(){
         if(!value) {
             error = 'Value required!'
         } else {
+            // eslint-disable-next-line default-case
             switch(name) {
                 case 'email':
                     if(!validator.isEmail(value)) {
