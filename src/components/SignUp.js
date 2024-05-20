@@ -3,8 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import MenuItem from "@mui/material/MenuItem"
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -13,9 +12,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validator from 'validator';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, InputLabel, Select, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { apiConnector } from '../api calls/apiConnector';
 
 function Copyright(props) {
   return (
@@ -47,7 +47,24 @@ export default function SignUp() {
         }
     });
 
-  const handleSubmit = (event) => {
+  const createUserAPI = async(data)=>{
+    try {
+      const response = await apiConnector("POST","http://127.0.0.1:4000/api/v1/user/signup",data);
+      if(! response.data.success){
+        throw new Error(response.data.message);
+      }
+      else{
+        console.log(response);
+        localStorage.setItem(data.email, JSON.stringify(response.data.user));
+        setOpenSuccess(true);
+      }
+    } catch (error) {
+        console.log("SIGNUP API ERROR............", error);
+        console.log(error.response.data.message);
+    }    
+  }  
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {};
@@ -60,8 +77,8 @@ export default function SignUp() {
         setErrors(newErrors);
         return;
     }
-    localStorage.setItem(formData.email, JSON.stringify(formData));
-    setOpenSuccess(true);
+    console.log(formData);
+    await createUserAPI(formData);
   };
 
   const validateComponent = (event) => {
@@ -205,6 +222,25 @@ export default function SignUp() {
                   error={errors.hasOwnProperty('confirmPassword')}
                   helperText={errors.confirmPassword}
                 />
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel htmlFor={"account"}>
+                <Select
+                  required
+                  fullWidth
+                  defaultValue=""
+                  label="Account"
+                  name="account"
+                  id="account"
+                  onChange={validateComponent}
+                  error={errors.hasOwnProperty('account')}
+                  helperText={errors.account}
+                >
+                  <MenuItem value={""} disabled>Select-User</MenuItem>
+                  <MenuItem value={"User"}>User</MenuItem>
+                  <MenuItem value={"Admin"}>Admin</MenuItem>
+                </Select>
+                </InputLabel>
               </Grid>
               <Grid item xs={12}>
                 <TextField

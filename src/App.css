@@ -1,32 +1,121 @@
-.logout {
-  background-color: red !important;
-}
-.center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.App {
   text-align: center;
 }
 
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.logout {
+    background-color: red !important;
+}
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .fill {
-  height: calc(100vh - 64px);
+    height: calc(100vh - 64px);
 }
 
 a {
-  color: inherit;
-  text-decoration: inherit;
+    color: inherit;
+    text-decoration: inherit;
 }
 
 .flex-wrap {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .nav-bar{
-  position: sticky;
-  top: 0;
-  z-index: 9;
+    position: sticky;
+    top: 0;
+    z-index: 9;
 }
 label.MuiFormLabel-root{
-  z-index: 0;
+    z-index: 0;
+}
+
+
+/* show more button */
+/* CSS */
+.button-64 {
+  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  border: 0;
+  border-radius: 100%;
+  aspect-ratio: 1/1;
+  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  font-family: Phantomsans, sans-serif;
+  min-width: 140px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.button-64:hover,
+.button-64:active {
+  outline: 0;
+}
+
+.button-64 span {
+  @apply bg-indigo-900 aspect-square rounded-full text-center w-full text-white px-6 py-4 transition duration-300;
+}
+
+.button-64:hover span {
+  background: none;
+}
+
+@media (min-width: 768px) {
+  .button-64 {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}
+
+#newsletter{
+  background-image: url(./assests/images/banner.jpg);
+  height: 120px;
+}
+
+.input-newsletter {
+  height: 3.125rem;
+  font-size: 14px;
+  padding: 0 1.25em;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  outline: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }

@@ -5,7 +5,6 @@ import SortProductFilter from './SortProductFilter';
 import CategoryToggleFilter from './CategoryToggleFilter';
 import InitialProducts from '../common/InitialProducts';
 import { Alert, Snackbar } from '@mui/material';
-import Footer from './Footer'
 
 const FilterProducts = (products, setDisplayProducts) => {
     const displaySetting = useSelector((state) => state.productPageFilters);
@@ -109,10 +108,9 @@ export default function Content () {
     if(!isLoggedIn) {
         return(
             <div>
-                <div className="center fill">Welcome to Shopspot,<br/>Enhance your experince through our goods.</div>
-
-                <Footer/>
+                 <div className="center fill">Welcome to Shopspot,<br/>Enhance your experince through our goods.</div>   
             </div>
+
         );
     }
     const [ vertical, horizontal ] = ['top', 'right'];

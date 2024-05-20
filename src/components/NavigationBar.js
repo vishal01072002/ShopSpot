@@ -18,7 +18,7 @@ const Logo = () => {
     <React.Fragment>
       <ShoppingCart />
       <Typography variant="h6" padding={1} noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-        Shopspot
+        ShopSpot
       </Typography>
     </React.Fragment>
   )
