@@ -93,9 +93,9 @@ const Menu = (props) => {
   }
   return(
     <React.Fragment>
-      <Box sx={{ typography: 'body1', '& > :not(style)': {ml: 1, mr: 1,},}}>
-        {props.isLoggedIn && <Link component="button" color="inherit" variant="body2" onClick={() => {navigate('/')}}>Home</Link>}
-        {props.isAdmin && <Link component="button" color="inherit" variant="body2" onClick={() => {navigate('/addproduct')}}>Add Product</Link>}
+      <Box sx={{ typography: 'body1', '& > :not(style)': {ml: 1, mr: 3,},}}>
+        {props.isLoggedIn && <button component="button" color="inherit" variant="body2" className='mr-10 text-lg font-semibold' onClick={() => {navigate('/')}}>Home</button>}
+        {props.isAdmin && <button component="button" color="inherit" variant="body2" className='mr-10 text-lg font-semibold' onClick={() => {navigate('/addproduct')}}>Add-Product</button>}
       </Box>
       <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
         {props.isLoggedIn ? <Button color="inherit" className='logout' onClick={() => {
@@ -111,19 +111,11 @@ export default function NavigationBar() {
 
   const user = useSelector(state => state.user);
   const isLoggedIn = Object.keys(user).length !== 0;
+  console.log(Object.keys(user) );
   const isAdmin = isLoggedIn && user?.account === "Admin";
   const dispatch = useDispatch();
   const navigate = useNavigate();
   if(localStorage.getItem('admin@upgrad.com') === null) {
-    const adminDetails = {
-      contactNumber: "+919905029340",
-      email: "admin@upgrad.com",
-      firstName: "Prateek Gaurav",
-      isAdmin: true,
-      lastName: "admin",
-      password: "pass@admin"
-    };
-    localStorage.setItem('admin@upgrad.com', JSON.stringify(adminDetails));
   }
   return (
     <React.Fragment>

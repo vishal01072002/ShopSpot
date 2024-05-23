@@ -4,8 +4,10 @@ import HeroImg from "../assests/images/advertising.png"
 import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope } from "react-icons/fa";
 import { apiConnector } from '../api calls/apiConnector';
 import Content from '../components/Content';
+import { useSelector } from 'react-redux';
 
 export const Home = () => {
+  const user = useSelector(state => state.user);
     const categories = [
         { id: 1, name: 'Fashion' },
         { id: 2, name: 'Electronics' },
@@ -37,11 +39,11 @@ export const Home = () => {
           throw new Error(response?.data?.message);
       }
       else{
-        console.log(response);
+        // console.log(response);
         const productDetail = response.data.products;
         setAllProducts(productDetail);
         localStorage.setItem('products', JSON.stringify(productDetail));
-        console.log(productDetail?.slice(0,2));
+        // console.log(productDetail?.slice(0,2));
       }
     } catch (error) {
       console.log("ONE PRODUCT API ERROR............", error);
@@ -66,7 +68,7 @@ export const Home = () => {
             <p className="text-lg mb-8 text-start">Discover the latest trends in fashion, electronics, and more!</p>
             <div className="flex space-x-4">
               <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold">Shop Now</button>
-              <button className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">Login</button>
+              {!user && <button className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">Login</button>}
             </div>
           </div>
           <div className="text-center w-2/4 lg:text-right">

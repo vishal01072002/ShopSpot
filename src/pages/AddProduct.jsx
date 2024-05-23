@@ -21,6 +21,7 @@ export const AddProduct = () => {
   ]
 
   const user = useSelector((state) => state.user);
+  console.log(user);
   const navigate = useNavigate();
   const params = useParams();
   console.log(params);
@@ -158,7 +159,7 @@ export const AddProduct = () => {
 
   useEffect(()=>{
     if(user?.account !== "Admin"){
-      navigate("/");
+      //navigate("/");
     }
   },[])
 
