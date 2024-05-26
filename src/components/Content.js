@@ -44,7 +44,7 @@ export const Filters = ({isHideSort}) => {
 }
 
 const ProductCatelogue = ({displayProducts, isAdmin}) => {
-    // console.log(displayProducts);
+    console.log(displayProducts);
     if(displayProducts?.length === 0){
         return <div className='h-48 my-16 flex items-center justify-center text-3xl'>No Product In This Category</div>
     }

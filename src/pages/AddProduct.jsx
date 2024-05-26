@@ -97,6 +97,7 @@ export const AddProduct = () => {
         }
         else{
             console.log(response);
+            navigate("/");
         }
     } catch (error) {
         console.log("ADD PRODUCT API ERROR............", error);
@@ -112,10 +113,10 @@ export const AddProduct = () => {
         });
         if(! response.data.success){
             throw new Error(response.data.message);
-            // navigate("");
-        }
-        else{
+          }
+          else{
             console.log(response);
+            navigate("/");
         }
     } catch (error) {
         console.log("EDIT PRODUCT API ERROR............", error);

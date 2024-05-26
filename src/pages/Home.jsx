@@ -39,7 +39,7 @@ export const Home = () => {
           throw new Error(response?.data?.message);
       }
       else{
-        // console.log(response);
+        console.log(response);
         const productDetail = response.data.products;
         setAllProducts(productDetail);
         localStorage.setItem('products', JSON.stringify(productDetail));
