@@ -1,15 +1,15 @@
 import express, { json } from "express";
 import { connectDB } from "./config/database.js";
+import { cloudinaryConnect } from "./config/cloudinary.js";
 import cookieParser from "cookie-parser";
 import {config} from "dotenv";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 // import Routes
 import userRoute from "./routes/user.js";
-<<<<<<< HEAD
-
-=======
 import productRoute from "./routes/product.js";
->>>>>>> f56e537d701b95d7a7b71a317eb9bd1fd04d36f4
+import cartRoute from "./routes/cart.js";
+import orderRoute from "./routes/order.js";
 const app = express();
 
 // loading environment variables
@@ -23,6 +23,11 @@ const PORT = process.env.PORT || 5000;
 app.use(json());
 app.use(cookieParser());
 
+app.use(fileUpload({
+  useTempFiles:true,
+  tempFileDir:"/temp/",
+}));
+
 app.use(cors({
   origin: process.env.FRONTEND_LINK,
   credentials:true,    
@@ -31,14 +36,16 @@ app.use(cors({
 // connect with database
 connectDB();
 
+// connect cloudinary
+cloudinaryConnect();
+
+
 // mounting routes
 app.use("/api/v1/user", userRoute);
-<<<<<<< HEAD
+app.use("/api/v1/product",productRoute);
+app.use("/api/v1/cart",cartRoute);
+app.use("/api/v1/order",orderRoute);
 
-
-=======
-app.use("api/v1/product",productRoute);
->>>>>>> f56e537d701b95d7a7b71a317eb9bd1fd04d36f4
 // listen to server
 app.listen(PORT, ()=> {
     console.log("server start at port",PORT);

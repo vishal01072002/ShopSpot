@@ -1,19 +1,30 @@
 import React from 'react';
 
 const Footer = () => {
-  return (
-    <footer className="bg-gray-800 text-gray-300 py-8">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-        <div className="flex items-center mb-4 md:mb-0">
-          {/* <img src="/logo.svg" alt="Logo" className="h-8 mr-2" /> */}
-          <span className="font-bold text-lg">Shopspot</span>
-        </div>
-        <div>
-          <span className="flex flex-wrap justify-center md:justify-end">© {new Date().getFullYear()} Your Website. All rights reserved.</span>
-        </div>
-      </div>
-    </footer>
-  );
-};
+    return (
+        <footer className="bg-gray-800 py-6">
+            <div className="container mx-auto px-4">
+                <div className="flex justify-between items-center">
+                    <div>
+                        <p className="text-gray-400">&copy; {new Date().getFullYear()} ShopSpot. All rights reserved.</p>
+                    </div>
+                    <div>
+                        <ul className="flex items-center space-x-6">
+                            <li>
+                                <a href="#" className="text-gray-400 hover:text-white transition duration-300">About Us</a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="#" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    );
+}
 
 export default Footer;

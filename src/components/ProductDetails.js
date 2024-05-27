@@ -9,7 +9,7 @@ import './ProductDetails.css';
 export default function ProductDetails() {
     let { productId } = useParams();
     const products = JSON.parse(localStorage.getItem('products'));
-    const product = products.find(ele => ele.key == productId);
+    const product = products.find(ele => ele._id == productId);
     const [productQuantity, setProductQuantity] = useState(1);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function ProductDetails() {
     useEffect(() => {
         if(!isLoggedIn) {
             console.log('reached');
-            navigate('/');
+            navigate('/login');
         }
     });
 
@@ -45,13 +45,13 @@ export default function ProductDetails() {
                     <CardMedia
                         component="img"
                         height="auto"
-                        image={product.photo}
-                        alt={product.name}
+                        image={product.image}
+                        alt={product.productName}
                     />
                 </div>
                 <div className="product-detail">
                     <div className="product-title">
-                        <h1 className="product-name">{product.name}</h1>
+                        <h1 className="product-name">{product.productName}</h1>
                         <span className="product-availability">Available Quantity : {(product.quantity - productQuantity < 0) ? 0 : (product.quantity - productQuantity)}</span>
                     </div>
                     <div className="product-category">
@@ -61,7 +61,7 @@ export default function ProductDetails() {
                         <span>{product.description}</span>
                     </div>
                     <div className="product-price">
-                        <span> &#8377;  {product.price}</span>
+                        <span> &#8377;  {product.sellingPrice * productQuantity}</span>
                     </div>
                     <form>
                         <div className="product-quantity">
@@ -87,7 +87,7 @@ export default function ProductDetails() {
                                     navigate({
                                         pathname: "/orders",
                                         search: createSearchParams({
-                                            productId: product.key,
+                                            productId: product?._id,
                                             quantity: productQuantity
                                         }).toString()
                                     });

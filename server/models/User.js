@@ -26,6 +26,13 @@ const UserSchema = new Schema({
         type:String,
         enum:["User","Admin"],
     },
+    contactNumber:{
+        type:Number
+    },
+    cart:{
+        type:Schema.Types.ObjectId,
+        ref:"Cart",
+    },
     products:[
         {
             type:Schema.Types.ObjectId,

@@ -22,9 +22,10 @@ const ProductSchema = new Schema({
         trim: true,
         required: true,
         enum: [
-            'mobile',
-            'laptop',
-            'etc',       
+            "APPAREL",
+            "ELECTRONICS",
+            "FOOTWEAR",
+            "PERSONAL CARE",       
         ],
     },
     sellingPrice:{

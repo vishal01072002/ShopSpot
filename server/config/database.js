@@ -4,8 +4,8 @@ dotenv.config();
 
 export function connectDB() {
     connect(process.env.DATABASE_URL,{
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+        //useNewUrlParser: true,
+        //useUnifiedTopology: true,
     })
     .then(()=> {console.log("database connected sucessfully")})
     .catch( (error)=> {

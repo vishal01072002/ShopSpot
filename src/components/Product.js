@@ -63,23 +63,26 @@ export default function Product({productDetails, isAdmin}) {
     const [product, setProduct] = useState(productDetails);
     const navigate = useNavigate();
     return (
-        <Card key={product.key} sx={{ maxWidth: 345 , margin: 5, minWidth: 345}}>
+        <Card key={product._id} sx={{ maxWidth: 345 , margin: 5, minWidth: 345}}>
             <CardMedia
                 sx={{ height: 240 }}
-                image={product.photo}
-                title={product.name}
+                image={product.image}
+                title={product.productName}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    {product.name}
-                    <span style={{float: 'right'}}> &#8377; {product.price}</span>
-                </Typography>
+                <div className="flex justify-between" >
+                    <p className="text-xl font-semibold">{product.productName}</p>
+                    <div className="relative">
+                        <span className="text-emerald-600 text-xl font-semibold">&#8377;{product.sellingPrice}</span>
+                        <del className="absolute top-5 right-0" >&#8377;{product.Mrp}</del>
+                    </div>
+                </div>
                 <Typography variant="body2" color="text.secondary">
                     {product.description}
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" variant="contained" onClick={() => {navigate('/products/' + product.key)}}>Buy</Button>
+                <Button size="small" variant="contained" onClick={() => {navigate('/products/' + product._id)}}>Buy</Button>
                 <AdminMenu isAdmin={isAdmin} product={product}/>
             </CardActions>
         </Card>

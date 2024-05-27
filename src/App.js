@@ -1,17 +1,20 @@
-import './App.css';
-import NavigationBar from './components/NavigationBar';
 import * as React from 'react';
+import { Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { AddProduct } from "./pages/AddProduct";
+import NavigationBar from './components/NavigationBar';
 import Content from './components/Content';
-import { Routes, Route} from "react-router-dom";
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import ProductDetails from './components/ProductDetails';
 import NoMatch from './components/NoMatch';
 import Order from './components/Order';
-import { CssBaseline } from '@mui/material';
 import ProductForm from './components/ProductForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { Home } from './pages/Home';
+// import PaymentGatewayPage from './pages/Payment';
+import CheckoutCart from './pages/Cart';
+
 
 const theme = createTheme({
   palette: {
@@ -29,33 +32,30 @@ const theme = createTheme({
 });
 
 function App() {
-  var dispatch = useDispatch();
-  const user = useSelector(state => state.user);
-  const isLoggedIn = Object.keys(user).length !== 0;
-  const sessionUser = sessionStorage.getItem('currentUser');
-    if(!isLoggedIn && sessionUser !== null) {
-      dispatch({type: 'login', payload: JSON.parse(sessionUser)});
-    }
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline>
+      <CssBaseline />
       <div className="App">
+        <NavigationBar />
         <Routes>
-          <Route path="/" element={<NavigationBar />}>
-            <Route index element={<Content />} />
-            <Route path="products/:productId" element={<ProductDetails />} />
-            <Route path="modifyproduct/:productId" element={<ProductForm />} />
-            <Route path="addproduct" element={<ProductForm />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="orders" element={<Order />} />
-            <Route path="*" element={<NoMatch />} />
-          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/products/:productId" element={<ProductDetails />} />
+          <Route path="/modifyproduct/:productId" element={<ProductForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path='/addProduct' element={<AddProduct/>}/>
+          <Route path='/editProduct/:productId' element={<AddProduct/>}/>
+          <Route path='/Cart' element={<CheckoutCart />} />
+          {/* <Route path='/Payment' element={<PaymentGatewayPage />} /> */}
+          <Route path="/orders" element={<Order />} />
+          <Route path="/home" element={<Content />} />
+          <Route path="*" element={<NoMatch />} />
         </Routes>
       </div>
-      </CssBaseline>
     </ThemeProvider>
   );
 }
 
 export default App;
+
+// categories 'APPAREL', 'ELECTRONICS', 'FOOTWEAR', 'PERSONAL CARE'

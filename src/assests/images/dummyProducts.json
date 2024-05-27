@@ -1,0 +1,30 @@
+[
+    {
+        "_id": "1",
+        "productName": "Stylish Jacket",
+        "description": "A trendy jacket for all seasons.",
+        "sellingPrice": 2999,
+        "image": "https://via.placeholder.com/200"
+    },
+    {
+        "_id": "2",
+        "productName": "Smartphone",
+        "description": "Latest model with cutting-edge technology.",
+        "sellingPrice": 19999,
+        "image": "https://via.placeholder.com/200"
+    },
+    {
+        "_id": "3",
+        "productName": "Cookware Set",
+        "description": "Premium quality cookware for your kitchen.",
+        "sellingPrice": 2499,
+        "image": "https://via.placeholder.com/200"
+    },
+    {
+        "_id": "4",
+        "productName": "Electric Shaver",
+        "description": "Get a smooth shave every time.",
+        "sellingPrice": 1499,
+        "image": "https://via.placeholder.com/200"
+    }
+]

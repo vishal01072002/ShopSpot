@@ -7,6 +7,7 @@ import AddressDetails from "./AddressDetails";
 import OrderSummary from './OrderSummary';
 import NoMatch from "./NoMatch";
 import './Order.css';
+import { apiConnector } from "../api calls/apiConnector";
 
 
 const steps = ['Items', 'Select Address', 'Confirm Order'];
@@ -34,7 +35,7 @@ export default function Order() {
     if(!searchParams.get('productId')) {
         return <NoMatch />
     }
-    const product = products.find(ele => ele.key == productId);
+    const product = products.find(ele => ele?._id == productId);
 
     const handleNext = () => {
         if(activeStep === 1) {
@@ -50,10 +51,10 @@ export default function Order() {
             newProducts[index].quantity = newProducts[index].quantity - quantity;
             const dateTime = new Date().toLocaleString();
             newProducts[index].modifiedDate = dateTime;
-            // dispatch({type: 'setProducts', payload: newProducts});
             localStorage.setItem('products', JSON.stringify(newProducts));
-            dispatch({type: 'setOrderPlacedTrue'});
-            navigate('/');
+            const data = {...address,productId:productId};
+            console.log(data);
+            createOrderAPI(data)
             return;
         }
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -62,6 +63,22 @@ export default function Order() {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const createOrderAPI = async (data) => {
+        try {
+          const response = await apiConnector("POST", "http://127.0.0.1:4000/api/v1/order/createOrder", data);
+          if (!response.data.success) {
+            throw new Error(response.data.message);
+          } else {
+            console.log(response);
+            dispatch({type: 'setOrderPlacedTrue'});
+            navigate('/');
+          }
+        } catch (error) {
+          console.log("CREATE ADDRESS API ERROR:", error);
+          console.log(error.response.data.message);
+        }
+      }
+  
     function OrderStepContent() {
         switch(activeStep) {
             case 0:
@@ -80,13 +97,13 @@ export default function Order() {
                         <CardMedia
                             component="img"
                             height="auto"
-                            image={product.photo}
-                            alt={product.name}
+                            image={product.image}
+                            alt={product?.productName}
                         />
                     </div>
                     <div className="product-detail">
                         <div className="product-title">
-                            <h1 className="product-name">{product.name}</h1>
+                            <h1 className="product-name">{product?.productName}</h1>
                         </div>
                         <div>
                             <span className="order-availability">Quantity : {quantity}</span>
@@ -98,7 +115,7 @@ export default function Order() {
                             <span>{product.description}</span>
                         </div>
                         <div className="product-price">
-                            <span> Total Price: &#8377;  {product.price * quantity}</span>
+                            <span> Total Price: &#8377;  {product.sellingPrice * quantity}</span>
                         </div>
                     </div>
                 </div>
