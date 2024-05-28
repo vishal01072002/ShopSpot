@@ -96,6 +96,7 @@ const Menu = (props) => {
       <Box sx={{ typography: 'body1', '& > :not(style)': {ml: 1, mr: 3,},}}>
         {props.isLoggedIn && <button component="button" color="inherit" variant="body2" className='mr-10 text-lg font-semibold' onClick={() => {navigate('/')}}>Home</button>}
         {props.isAdmin && <button component="button" color="inherit" variant="body2" className='mr-10 text-lg font-semibold' onClick={() => {navigate('/addproduct')}}>Add-Product</button>}
+        {props.isLoggedIn && <button component="button" color="inherit" variant="body2" className='mr-10 text-lg font-semibold' onClick={() => {navigate('/cart')}}><ShoppingCart /></button>}
       </Box>
       <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
         {props.isLoggedIn ? <Button color="inherit" className='logout' onClick={() => {
@@ -111,7 +112,7 @@ export default function NavigationBar() {
 
   const user = useSelector(state => state.user);
   const isLoggedIn = Object.keys(user).length !== 0;
-  console.log(Object.keys(user) );
+  // console.log(Object.keys(user) );
   const isAdmin = isLoggedIn && user?.account === "Admin";
   const dispatch = useDispatch();
   const navigate = useNavigate();

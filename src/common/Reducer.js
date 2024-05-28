@@ -1,7 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
 const initialState={
-    user: {},
+    cart: JSON.parse(localStorage.getItem('userCart')) === null ? [] : JSON.parse(localStorage.getItem('userCart')),
+    user: JSON.parse(localStorage.getItem('shopspotUser')) === null ? {} : JSON.parse(localStorage.getItem('shopspotUser')),
     productPageFilters: {
         search: '',
         sortBy: 'Default',
@@ -20,8 +21,22 @@ const UserReducer = (state = initialState.user, action) => {
             sessionStorage.setItem('currentUser', JSON.stringify(action.payload));
             return action.payload;
         case 'logout':
+            (localStorage.setItem('shopspotUser',null));
             sessionStorage.removeItem('currentUser');
             return {};
+        default:
+            return state;
+    }
+}
+
+const CartReducer = (state = initialState.cart, action) => {
+    switch(action.type) {
+        case 'addCart':
+            sessionStorage.setItem('userCart', JSON.stringify(action.payload));
+            return action.payload;
+        case 'removeCart':
+            (localStorage.setItem('userCart', JSON.stringify(action.payload)));
+            return action.payload;
         default:
             return state;
     }
@@ -60,7 +75,8 @@ const popupsReducer = (state = initialState.popups, action) => {
 const AppReducer = combineReducers({
     user: UserReducer,
     productPageFilters: productPageFiltersReducer,
-    popups: popupsReducer
+    popups: popupsReducer,
+    cart : CartReducer,
   });
     
   export default AppReducer;

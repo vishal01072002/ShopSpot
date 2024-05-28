@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
 import Footer from '../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
 
 const CheckoutCart = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Product 1', price: 10 },
-    { id: 2, name: 'Product 2', price: 15 },
-    { id: 3, name: 'Product 3', price: 20 },
-  ]);
+  const dispatch = useDispatch();
+  const allProducts = JSON.parse(localStorage.getItem('products'))
+  const cart = useSelector((state) => state.cart);
+  const [cartItem, setCartItem] = useState(allProducts.filter((item=>{
+    return (cart.includes(item._id))
+  })));
 
-  const removeItem = (id) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
+  
+  const removeFromCart = (productId)=>{
+    let tempCart = [...cart]
+    const temp = tempCart.filter((item) => {
+      return (item !== productId);
+    })
+    console.log(temp,cart);
+    dispatch({type: 'removeCart', payload: temp});
+    setCartItem(allProducts.filter(item=>{
+      return (temp.includes(item._id))}))
+  }
 
-  const totalPrice = cartItems.reduce((acc, item) => acc + item.price, 0);
+  const totalPrice = cartItem.reduce((acc, item) => acc + item.sellingPrice, 0);
 
   const handleCheckout = () => {
-    if (cartItems.length > 0) {
+    if (cart.length > 0) {
       window.location.href = 'https://buy.stripe.com/test_00g7um22l5E4ck87ss'; 
     }
   };
@@ -28,17 +38,17 @@ const CheckoutCart = () => {
 
         <div className="bg-white text-gray-800 shadow-lg rounded-lg overflow-hidden">
           <div className="divide-y divide-gray-200">
-            {cartItems.map(item => (
-              <div key={item.id} className="flex items-center justify-between p-6 hover:bg-gray-100 transition duration-300">
+            {cartItem.map(item => (
+              <div key={item._id} className="flex items-center justify-between p-6 hover:bg-gray-100 transition duration-300">
                 <div className="flex items-center space-x-4">
-                  <img src="https://via.placeholder.com/50" alt="Product Image" className="w-16 h-16 rounded-lg object-cover" />
+                  <img src={item.image} alt="Product Image" className="w-16 h-16 rounded-lg object-cover" />
                   <div>
-                    <h2 className="text-lg font-semibold">{item.name}</h2>
-                    <p className="text-gray-500">${item.price.toFixed(2)}</p>
+                    <h2 className="text-lg font-semibold">{item.productName}</h2>
+                    <p className="text-gray-500">&#8377;{item.sellingPrice}</p>
                   </div>
                 </div>
                 <button 
-                  onClick={() => removeItem(item.id)} 
+                  onClick={() => removeFromCart(item._id)} 
                   className="text-red-600 hover:text-red-800 font-semibold"
                   >
                   Remove
@@ -49,12 +59,12 @@ const CheckoutCart = () => {
         </div>
 
         <div className="mt-8 flex justify-between items-center">
-          <h2 className="text-2xl font-semibold">Total Price: ${totalPrice.toFixed(2)}</h2>
+          <h2 className="text-2xl font-semibold">Total Price: &#8377;{totalPrice}</h2>
           <button 
             onClick={handleCheckout} 
-            disabled={cartItems.length === 0}
+            disabled={cartItem.length === 0}
             className={`px-6 py-3 rounded-lg shadow-md transition duration-300 ${
-              cartItems.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 text-white'
+              cartItem.length === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 text-white'
             }`}
             >
             Checkout

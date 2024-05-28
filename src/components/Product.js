@@ -3,7 +3,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { PiShoppingCartFill } from "react-icons/pi";
 
 const AdminMenu = ({isAdmin, product}) => {
     const dispatch = useDispatch();
@@ -60,7 +61,15 @@ const AdminMenu = ({isAdmin, product}) => {
 }
 
 export default function Product({productDetails, isAdmin}) {
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart);
     const [product, setProduct] = useState(productDetails);
+
+    const addToCart = (productId)=>{
+        const temp = [...cart,productId];
+        dispatch({type: 'addCart', payload: temp});
+    }
+
     const navigate = useNavigate();
     return (
         <Card key={product._id} sx={{ maxWidth: 345 , margin: 5, minWidth: 345}}>
@@ -81,8 +90,14 @@ export default function Product({productDetails, isAdmin}) {
                     {product.description}
                 </Typography>
             </CardContent>
-            <CardActions>
-                <Button size="small" variant="contained" onClick={() => {navigate('/products/' + product._id)}}>Buy</Button>
+            <CardActions className="flex justify-between">
+                <Button size="medium" variant="contained" onClick={() => {navigate('/products/' + product._id)}}>Buy</Button>
+
+                {
+                    (cart.includes(product._id)) ? 
+                    <Button size="medium" variant="contained" onClick={()=>{navigate("/cart")}}><PiShoppingCartFill size={19} className="mr-1"/>{"Check Out"}</Button> :
+                    <Button size="medium" variant="contained" onClick={() => {addToCart(product._id)}}><PiShoppingCartFill size={19} className="mr-1"/>{"Add"}</Button>
+                }
                 <AdminMenu isAdmin={isAdmin} product={product}/>
             </CardActions>
         </Card>

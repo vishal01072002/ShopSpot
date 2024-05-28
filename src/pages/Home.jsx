@@ -38,7 +38,7 @@ export const Home = () => {
       if (!response.data.success) {
         throw new Error(response?.data?.message);
       } else {
-        console.log(response);
+        // console.log(response);
         const productDetail = response.data.products;
         setAllProducts(productDetail);
         localStorage.setItem('products', JSON.stringify(productDetail));
@@ -55,10 +55,10 @@ export const Home = () => {
   useEffect(() => {
     fetchallproduct();
   }, []);
-
+  // console.log(Object.keys(user).length);
   return (
     <div className="font-gilroy">
-      <div className="bg-gradient-to-r from-blue-800 to-purple-800 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-800 to-purple-800 text-white py-0">
         <div className="container mx-auto px-4">
           <div className="flex flex-col-reverse lg:flex-row gap-8 items-center">
             <div className="lg:w-1/2 text-center lg:text-left">
@@ -66,7 +66,7 @@ export const Home = () => {
               <p className="text-lg mb-8">Discover the latest trends in fashion, electronics, and more!</p>
               <div className="flex justify-center lg:justify-start space-x-4">
                 <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold">Shop Now</button>
-                {!user && <button className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">Login</button>}
+                {Object.keys(user).length <= 0 && <button className="bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold">Login</button>}
               </div>
             </div>
             <div className="lg:w-1/2">
