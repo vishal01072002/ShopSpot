@@ -12,7 +12,7 @@ import NoMatch from './components/NoMatch';
 import Order from './components/Order';
 import ProductForm from './components/ProductForm';
 import { Home } from './pages/Home';
-import PaymentGatewayPage from './pages/Payment';
+// import PaymentGatewayPage from './pages/Payment';
 import CheckoutCart from './pages/Cart';
 
 
@@ -46,7 +46,7 @@ function App() {
           <Route path='/addProduct' element={<AddProduct/>}/>
           <Route path='/editProduct/:productId' element={<AddProduct/>}/>
           <Route path='/Cart' element={<CheckoutCart />} />
-          <Route path='/Payment' element={<PaymentGatewayPage />} />
+          {/* <Route path='/Payment' element={<PaymentGatewayPage />} /> */}
           <Route path="/orders" element={<Order />} />
           <Route path="/home" element={<Content />} />
           <Route path="*" element={<NoMatch />} />

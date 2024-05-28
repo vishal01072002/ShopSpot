@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import validator from 'validator';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, InputLabel, Select, MenuItem, FormHelperText, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { apiConnector } from '../api calls/apiConnector';
@@ -20,8 +20,8 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" href="/">
+        Shopspot
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -34,7 +34,6 @@ const theme = createTheme();
 export default function SignUp() {
 
     const [errors, setErrors] = React.useState({});
-    const [account, setAccount] = React.useState("");
     const [openSuccess, setOpenSuccess] = React.useState(false);
     const user = useSelector(state => state.user);
     const isLoggedIn = Object.keys(user).length !== 0;
@@ -47,91 +46,71 @@ export default function SignUp() {
         }
     });
 
-  const createUserAPI = async(data)=>{
-    try {
-      const response = await apiConnector("POST","http://127.0.0.1:4000/api/v1/user/signup",data);
-      if(! response.data.success){
-        throw new Error(response.data.message);
-      }
-      else{
-        console.log(response);
-        localStorage.setItem(data.email, JSON.stringify(response.data.user));
-        setOpenSuccess(true);
-      }
-    } catch (error) {
-        console.log("SIGNUP API ERROR............", error);
-        console.log(error.response.data.message);
-    }    
-  }  
-
   const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {};
-    const newErrors = {...errors};
-    for(let [name, value] of data) {
-        formData[name] = value;
-        validate(name, value, newErrors);
+    const newErrors = { ...errors };
+    for (let [name, value] of data) {
+      formData[name] = value;
+      validate(name, value, newErrors);
     }
-    if(Object.keys(newErrors).length !== 0) {
-        setErrors(newErrors);
-        return;
+    if (Object.keys(newErrors).length !== 0) {
+      setErrors(newErrors);
+      return;
     }
     console.log(formData);
     await createUserAPI(formData);
   };
 
   const validateComponent = (event) => {
-    const newErrors = validate(event.currentTarget.name, event.currentTarget.value, {...errors});
+    const newErrors = validate(event.currentTarget.name, event.currentTarget.value, { ...errors });
     setErrors(newErrors);
-  }
+  };
 
   const validate = (name, value, newErrors) => {
     let error = '';
-    if(name === "account"){
-      console.log(value);
-    }
     if(!value) {
         error = 'Value required!'
     } else {
-        switch(name) {
-            case 'email':
-                if(!validator.isEmail(value)) {
-                    error = 'Please enter a proper Email ID'
-                }
-                break;
-            case 'password':
-                if(value.length < 8) {
-                    error = 'Password should have atleast 8 characters'
-                }
-                break;
-            case 'confirmPassword':
-                if(document.getElementById('password').value !== value) {
-                    error = "Doesn't match with password"
-                }
-                break;
-            case 'contactNumber':
-                if(!validator.isMobilePhone(value)) {
-                    error = 'Please enter a proper contact number'
-                }
-            break;
-        }
+      switch (name) {
+        case 'email':
+          if (!validator.isEmail(value)) {
+            error = 'Please enter a proper Email ID';
+          }
+          break;
+        case 'password':
+          if (value.length < 8) {
+            error = 'Password should have at least 8 characters';
+          }
+          break;
+        case 'confirmPassword':
+          if (document.getElementById('password').value !== value) {
+            error = "Doesn't match with password";
+          }
+          break;
+        case 'contactNumber':
+          if (!validator.isMobilePhone(value)) {
+            error = 'Please enter a proper contact number';
+          }
+          break;
+      }
     }
-    if(error === '') {
-        delete newErrors[name]
+    if (error === '') {
+      delete newErrors[name];
     } else {
-        newErrors[name] = error;
+      newErrors[name] = error;
     }
     return newErrors;
-  }
+  };
 
-    React.useEffect(() => {
-        if(openSuccess) {
-            setTimeout(() => {
-                navigate('/login');
-            }, 2000);
-        }
-    }, [openSuccess]);
+  React.useEffect(() => {
+    if (openSuccess) {
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    }
+  }, [openSuccess, navigate]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -165,7 +144,7 @@ export default function SignUp() {
                   required
                   fullWidth
                   id="firstName"
-                  label={"First Name"}
+                  label="First Name"
                   onChange={validateComponent}
                   error={errors.hasOwnProperty('firstName')}
                   helperText={errors.firstName}
@@ -227,22 +206,21 @@ export default function SignUp() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <InputLabel>Account</InputLabel>
-                <Select
-                  required
-                  fullWidth
-                  value={account}
-                  label="Account"
-                  name="accounts"
-                  id="accounts"
-                  onChange={(e)=>setAccount(e.target.value)}
-                  error={errors.hasOwnProperty('accounts')}
-                  helperText={errors.accounts}
-                >
-                  <MenuItem value={""} disabled>Select-User</MenuItem>
-                  <MenuItem value={"User"}>User</MenuItem>
-                  <MenuItem value={"Admin"}>Admin</MenuItem>
-                </Select>
+                <FormControl fullWidth required error={errors.hasOwnProperty('accounts')}>
+                  <InputLabel>Account</InputLabel>
+                  <Select
+                    value={account}
+                    label="Account"
+                    name="accounts"
+                    id="accounts"
+                    onChange={(e) => setAccount(e.target.value)}
+                  >
+                    <MenuItem value="" disabled>Select-User</MenuItem>
+                    <MenuItem value="User">User</MenuItem>
+                    <MenuItem value="Admin">Admin</MenuItem>
+                  </Select>
+                  {errors.accounts && <FormHelperText>{errors.accounts}</FormHelperText>}
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -269,7 +247,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
