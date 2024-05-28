@@ -32,21 +32,37 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
+  const [errors, setErrors] = React.useState({});
+  const [account, setAccount] = React.useState("");
+  const [openSuccess, setOpenSuccess] = React.useState(false);
+  const user = useSelector(state => state.user);
+  const isLoggedIn = Object.keys(user).length !== 0;
+  const navigate = useNavigate();
 
-    const [errors, setErrors] = React.useState({});
-    const [openSuccess, setOpenSuccess] = React.useState(false);
-    const user = useSelector(state => state.user);
-    const isLoggedIn = Object.keys(user).length !== 0;
-    const navigate = useNavigate()
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      console.log('reached');
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
 
-    React.useEffect(() => {
-        if(isLoggedIn) {
-            console.log('reached');
-            navigate('/');
-        }
-    });
+  const createUserAPI = async (data) => {
+    try {
+      const response = await apiConnector("POST", "http://127.0.0.1:4000/api/v1/user/signup", data);
+      if (!response.data.success) {
+        throw new Error(response.data.message);
+      } else {
+        console.log(response);
+        localStorage.setItem(data.email, JSON.stringify(response.data.user));
+        setOpenSuccess(true);
+      }
+    } catch (error) {
+      console.log("SIGNUP API ERROR............", error);
+      console.log(error.response.data.message);
+    }
+  };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formData = {};
@@ -70,8 +86,11 @@ export default function SignUp() {
 
   const validate = (name, value, newErrors) => {
     let error = '';
-    if(!value) {
-        error = 'Value required!'
+    if (name === "account") {
+      console.log(value);
+    }
+    if (!value) {
+      error = 'Value required!';
     } else {
       switch (name) {
         case 'email':

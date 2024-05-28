@@ -8,7 +8,6 @@ import { Alert, Avatar, Box, Button, Checkbox,
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import validator from 'validator';
 import { apiConnector } from '../api calls/apiConnector';
-import Footer from './Footer';
 
 function Copyright(props) {
     return (
@@ -69,16 +68,9 @@ export default function Login(){
           setErrors(newErrors);
           return;
         }
-        const userData = JSON.parse(localStorage.getItem(formData.email));
-        if(userData === null) {
-            setOpenFailure(true);
-            return;
-        }
-        if(userData.password !== formData.password) {
-          setOpenPasswordFailure(true);
-          return;
-        }
-        dispatch({type: 'login', payload: userData});
+
+        await loginUserAPI(data);
+        
       };
 
       const validateComponent = (event) => {
@@ -118,8 +110,7 @@ export default function Login(){
         }, 2000);
       }
       return (
-       <>
-       <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <Snackbar open={openFailure} autoHideDuration={6000}>
             <Alert severity="error" sx={{ width: '100%' }}>
               User not found
@@ -139,7 +130,7 @@ export default function Login(){
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
-              >
+            >
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                 <LockOutlinedIcon />
               </Avatar>
@@ -159,7 +150,7 @@ export default function Login(){
                   onChange={validateComponent}
                   error={errors.hasOwnProperty('email')}
                   helperText={errors.email}
-                  />
+                />
                 <TextField
                   margin="normal"
                   required
@@ -172,17 +163,17 @@ export default function Login(){
                   onChange={validateComponent}
                   error={errors.hasOwnProperty('password')}
                   helperText={errors.password}
-                  />
+                />
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
-                  />
+                />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  >
+                >
                   Sign In
                 </Button>
                 <Grid container>
@@ -195,8 +186,7 @@ export default function Login(){
               </Box>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
-          </Container>          
+          </Container>
         </ThemeProvider>
-        </>
       );
 }
